@@ -32,10 +32,13 @@ class LargeListSection extends React.Component {
   waitForRender: boolean;
 
   contentUpdate() {
-    if (this.waitForRender)
-      this.rootView.setNativeProps({
-        style: { top: this.top, height: this.height }
-      });
+    if (this.waitForRender) {
+      if (this.rootView && this.rootView.setNativeProps) {
+        this.rootView.setNativeProps({
+          style: { top: this.top, height: this.height }
+        });
+      }
+    }
     this.waitForRender = false;
     this.forceUpdate();
   }
@@ -52,12 +55,14 @@ class LargeListSection extends React.Component {
 
     if (!force) {
       this.waitForRender = true;
-      this.rootView.setNativeProps({
-        style: {
-          top: top,
-          height: height
-        }
-      });
+      if (this.rootView && this.rootView.setNativeProps) {
+        this.rootView.setNativeProps({
+          style: {
+            top: top,
+            height: height
+          }
+        });
+      }
       return;
     }
     this.contentUpdate();
@@ -71,7 +76,7 @@ class LargeListSection extends React.Component {
   }
 
   render() {
-    let show = this.section>=0 && this.section<this.props.numberOfSections();// && this.top !== -10000;
+    let show = this.section >= 0 && this.section < this.props.numberOfSections();// && this.top !== -10000;
     if (show && !this.height) this.height = this.props.heightForSection(this.section);
     return (
       <View
