@@ -10,7 +10,7 @@
 import * as React from "react";
 import { ViewProperties } from "react-native";
 
-declare module "react-native-largelist" {
+declare module "react-native-advanced-largelist" {
   export interface IndexPath {
     section: number;
     row: number;
